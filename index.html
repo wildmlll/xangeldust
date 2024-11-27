@@ -6,129 +6,89 @@
     <title>xangeldust</title>
     <style>
         body {
-            background-color: #000000; /* Типичный яркий цвет для сайтов 2000х */
+            background-color: #000000;
             font-family: "Courier New", Courier, monospace;
-            color: #000;
+            color: #ffffff;
             text-align: center;
+        }
+        h1, h3 {
+            color: #ffffff;
+            text-shadow: 2px 2px 4px #000;
         }
         h1 {
             font-size: 48px;
             margin-top: 20px;
-            color: #ffffff; /* Золотой текст для ника */
-            text-shadow: 2px 2px 4px #000;
         }
         h3 {
             font-size: 30px;
             margin-top: 20px;
-            color: #ffffff; /* Золотой текст для ника */
-            text-shadow: 2px 2px 4px #000;
         }
         .timer {
             color: #ffffff;
-             font-size: 5rem;
-            text-align: center;
+            font-size: 2rem;
+            margin: 20px 0;
         }
-        
         @media (max-width: 768px) {
             .timer {
-                font-size: 3rem;
+                font-size: 1.5rem;
             }
         }
-
         @media (max-width: 480px) {
             .timer {
-                font-size: 2rem;
-            }
-        }
-        .content {
-            width: 90%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .photo-placeholder {
-            background-color: #fff;
-            width: 300px;
-            height: 300px;
-            border: 5px solid #000;
-            margin: 20px auto;
-        }
-        .photo-placeholder1 {
-            background-color: #fff;
-            width: 300px;
-            height: 80px;
-            border: 5px solid #000;
-            margin: 20px auto;
-        }
-        .photo-placeholder:hover {
-            background-color: #ddd;
-        }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 36px;
-            }
-            .photo-placeholder {
-                width: 200px;
-                height: 200px;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
+    <div>
+        <h1>xangeldust</h1>
+        <h3>я скучаю</h3>
+        
+        <div>
+            <div class="timer" id="timer1">00:00:00:00</div>
+        </div>
 
-<div class="content">
-    <h1>xangeldust</h1>
-<h3>я скучаю</h3>
-<div class="timer" id="timer">
-        00:00:00:00
- </div>
-    
-    <div class="photo-placeholder">
-        <img src="1.jpg" style="width: 100%; height: 100%">
-    </div>
-    <div class="photo-placeholder">
-        <img src="2.jpg" style="width: 100%; height: 100%">
-    </div>
-    <div class="photo-placeholder">
-        <img src="3.jpg" style="width: 100%; height: 100%">
-    </div>
-    <div class="photo-placeholder">
-        <img src="4.jpg" style="width: 100%; height: 100%">
-    </div>
-    <div class="photo-placeholder">
-        <img src="5.jpg" style="width: 100%; height: 100%">
-    </div>
-    <div class="photo-placeholder">
-        <img src="6.jpg" style="width: 100%; height: 100%">
+        <div>
+            <h3>и оч жду</h3>
+            <div class="timer" id="timer2">00:00:00:00</div>
+        </div>
     </div>
 
-</div>
-<h3>🛐</h3>
     <script>
-        // Устанавливаем начальную дату: четверг, 14 ноября 00:00
-        const startDate = new Date("2024-11-14T00:00:00");
+        // Дата и время начала отсчета
+        const startDate = new Date("2024-11-25T01:00:00");
+        // Дата и время конца отсчета
+        const endDate = new Date("2024-12-12T00:00:00");
 
-        function updateTimer() {
-            // Текущая дата и время
+        function updateTimers() {
             const now = new Date();
 
-            // Вычисляем разницу в миллисекундах
-            const difference = now - startDate;
+            // Таймер 1: прошедшее время
+            const elapsed = now - startDate;
+            const days1 = Math.floor(elapsed / (1000 * 60 * 60 * 24));
+            const hours1 = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes1 = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds1 = Math.floor((elapsed % (1000 * 60)) / 1000);
 
-            // Преобразуем разницу в дни, часы, минуты и секунды
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            // Форматируем и выводим первый таймер
+            document.getElementById("timer1").textContent = 
+                `${days1.toString().padStart(2, '0')}:${hours1.toString().padStart(2, '0')}:${minutes1.toString().padStart(2, '0')}:${seconds1.toString().padStart(2, '0')}`;
 
-            // Форматируем таймер
-            const formattedTime = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            // Таймер 2: оставшееся время
+            const remaining = endDate - now;
+            const days2 = Math.floor(remaining / (1000 * 60 * 60 * 24));
+            const hours2 = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes2 = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds2 = Math.floor((remaining % (1000 * 60)) / 1000);
 
-            // Отображаем таймер на странице
-            document.getElementById("timer").textContent = formattedTime;
+            // Форматируем и выводим второй таймер
+            document.getElementById("timer2").textContent = 
+                `${days2.toString().padStart(2, '0')}:${hours2.toString().padStart(2, '0')}:${minutes2.toString().padStart(2, '0')}:${seconds2.toString().padStart(2, '0')}`;
         }
 
-        // Обновляем таймер каждую секунду
-        setInterval(updateTimer, 1000);
+        // Обновляем таймеры каждую секунду
+        setInterval(updateTimers, 1000);
     </script>
 </body>
 </html>
