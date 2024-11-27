@@ -28,9 +28,29 @@
             font-size: 2rem;
             margin: 20px 0;
         }
+        .progress-bar-container {
+            width: 80%;
+            max-width: 300px;
+            height: 30px;
+            margin: 20px auto;
+            background-color: #000000;
+            border: 2px solid #ffffff;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #ffffff;
+            border-radius: 15px 0 0 15px;
+            transition: width 0.5s ease;
+        }
         @media (max-width: 768px) {
             .timer {
                 font-size: 3rem;
+            }
+             .progress-bar-container {
+                height: 15px;
             }
         }
         @media (max-width: 480px) {
@@ -79,6 +99,9 @@
             <h3>и оч жду</h3>
             <div class="timer" id="timer2">00:00:00:00</div>
         </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
     </div>
  <div class="photo-placeholder">
         <img src="1.jpg" style="width: 100%; height: 100%">
@@ -102,39 +125,34 @@
 </div>
 <h3>🛐</h3>
     <script>
-        // Дата и время начала отсчета
         const startDate = new Date("2024-11-25T01:00:00");
-        // Дата и время конца отсчета
         const endDate = new Date("2024-12-12T00:00:00");
 
-        function updateTimers() {
+        function updateTimersAndProgress() {
             const now = new Date();
 
-            // Таймер 1: прошедшее время
             const elapsed = now - startDate;
             const days1 = Math.floor(elapsed / (1000 * 60 * 60 * 24));
             const hours1 = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes1 = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
             const seconds1 = Math.floor((elapsed % (1000 * 60)) / 1000);
-
-            // Форматируем и выводим первый таймер
             document.getElementById("timer1").textContent = 
                 `${days1.toString().padStart(2, '0')}:${hours1.toString().padStart(2, '0')}:${minutes1.toString().padStart(2, '0')}:${seconds1.toString().padStart(2, '0')}`;
 
-            // Таймер 2: оставшееся время
             const remaining = endDate - now;
             const days2 = Math.floor(remaining / (1000 * 60 * 60 * 24));
             const hours2 = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes2 = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
             const seconds2 = Math.floor((remaining % (1000 * 60)) / 1000);
-
-            // Форматируем и выводим второй таймер
             document.getElementById("timer2").textContent = 
                 `${days2.toString().padStart(2, '0')}:${hours2.toString().padStart(2, '0')}:${minutes2.toString().padStart(2, '0')}:${seconds2.toString().padStart(2, '0')}`;
+
+            const totalTime = endDate - startDate;
+            const progress = Math.min(Math.max((elapsed / totalTime) * 100, 0), 100);
+            document.getElementById("progress-bar").style.width = `${progress}%`;
         }
 
-        // Обновляем таймеры каждую секунду
-        setInterval(updateTimers, 1000);
+        setInterval(updateTimersAndProgress, 1000);
     </script>
 </body>
 </html>
